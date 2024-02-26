@@ -332,7 +332,7 @@
         </div>
         <div class="display" id="display">0</div>
         <div class="keys">
-          <div class="key clear" onclick="clearDisplay()">C</div>
+          <div class="key clear" onclick="playSound(), clearDisplay()">C</div>
           <div class="key clear" onclick="changePositivity()">
             <sup>+</sup>/<sub>-</sub>
           </div>
@@ -383,6 +383,9 @@
         /></span>
       </span>
     </footer>
+    <audio id="clicks">
+    <source src="click.mp3" type="audio/mpeg">
+  </audio>
     <script>
       const display = document.getElementById("display");
       const tape = document.getElementById("tape");
@@ -497,6 +500,10 @@
           $(".container").hide();
         });
       });
+      function playSound() {
+    var audio = document.getElementById("clicks");
+    audio.play();
+}
     </script>
   </body>
 </html>
