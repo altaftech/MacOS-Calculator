@@ -108,3 +108,7 @@ $(document).ready(function () {
         $(".container").hide();
     });
 });
+function playSound() {
+    var audio = document.getElementById("clicks");
+    audio.play();
+}
