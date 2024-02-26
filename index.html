@@ -29,7 +29,7 @@
       </div>
       <div class="display" id="display">0</div>
       <div class="keys">
-        <div class="key clear" onclick="clearDisplay()">C</div>
+        <div class="key clear" onclick="playSound(), clearDisplay()">C</div>
         <div class="key clear" onclick="changePositivity()">
           <sup>+</sup>/<sub>−</sub>
         </div>
@@ -73,6 +73,9 @@
         <img class="profile" src="Altaftech.png" alt="profile pic" /></span>
     </span>
   </footer>
+  <audio id="clicks">
+    <source src="click.mp3" type="audio/mpeg">
+  </audio>
   <script src="script.js"></script>
 </body>
 
