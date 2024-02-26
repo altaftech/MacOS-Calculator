@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MacOS Calculator</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Roboto:100");
+      * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        user-select: none;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .main {
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        column-gap: 40px;
+        row-gap: 10px;
+      }
+      h1 {
+        color: white;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        display: flex;
+        justify-content: center;
+        position: relative;
+      }
+      .content {
+        position: relative;
+      }
+
+      .calculator {
+        position: relative;
+        width: 320px;
+        border-radius: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .display {
+        border: solid 0.5px #9e9e9e;
+        color: #ffffff;
+        padding: 20px;
+        font-size: 3em;
+        text-align: right;
+        background: rgba(118, 96, 80, 0.6);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      .keys {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .key {
+        font-family: Roboto;
+        font-weight: bold;
+
+        border: 1.3px solid;
+        border: solid 0.5px #9e9e9e;
+        background: rgba(224, 224, 224, 0.9);
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 8px;
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      .key1 {
+        border-radius: 0 0 0 15px;
+      }
+      .key2 {
+        border-radius: 0 0 15px 0;
+      }
+
+      .key:hover {
+        background-color: #ced2d7;
+        color: black;
+      }
+      #key:hover {
+        color: #ff9f0c;
+      }
+      .clear:hover {
+        background-color: #b4b8bc;
+        color: #ff9f0c;
+      }
+
+      .operation {
+        background-color: rgba(239, 145, 4, 0.9);
+        color: rgb(255, 255, 255);
+      }
+      .operation:hover {
+        background-color: #ff9f0c;
+        color: rgb(255, 255, 255);
+      }
+
+      .equal {
+        grid-column: span 2;
+      }
+
+      .clear {
+        background-color: rgba(197, 192, 192, 0.9);
+        color: #161616;
+      }
+
+      .window {
+        width: 16px;
+        height: 16px;
+        margin: auto;
+        border-radius: 50px;
+        margin-right: 5px;
+        cursor: pointer;
+        display: inline-block;
+        position: absolute;
+      }
+      #red {
+        background: #fc5653;
+        top: 8px;
+        left: 10px;
+      }
+      #yellow {
+        background: #febd3d;
+        top: 8px;
+        left: 35px;
+      }
+      #green {
+        background: #30c948;
+        top: 8px;
+        left: 60px;
+      }
+      .container {
+        display: none;
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+      }
+      .calculator #red:hover {
+        background: #ff0000;
+      }
+      .calculator #yellow:hover {
+        background: #ffaa00;
+      }
+      .calculator #green:hover {
+        background: #00ff26;
+      }
+      .container #red {
+        background: white;
+      }
+      .container #yellow {
+        background: white;
+        cursor: auto;
+      }
+      .container #green {
+        background: white;
+        cursor: auto;
+      }
+      .container #red:hover {
+        background: #fc5653;
+      }
+      .red1 {
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        visibility: hidden; /* Initially hidden */
+        transition: visibility; /* Smooth transition */
+      }
+      #red:hover .red1 {
+        visibility: visible; /* Show text on hover */
+        color: white;
+      }
+      .yellow1 {
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        visibility: hidden; /* Initially hidden */
+        transition: visibility; /* Smooth transition */
+      }
+      #yellow:hover .yellow1 {
+        visibility: visible;
+        color: black;
+      }
+      .green1 {
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        visibility: hidden; /* Initially hidden */
+        transition: visibility; /* Smooth transition */
+      }
+      #green:hover .green1 {
+        visibility: visible; /* Show text on hover */
+        color: green;
+      }
+
+      .papertape {
+        font-weight: bolder;
+        padding: 8px;
+        background: #eeebec;
+        color: #969294;
+        text-align: center;
+      }
+      .tape {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 0 0 15px 15px;
+        height: 300px;
+        width: 280px;
+        padding: 10px;
+        border-top: 1px solid #ccc;
+        font-size: 16px;
+        overflow-y: auto;
+      }
+      #clear {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        font-weight: 500;
+        width: 60px;
+        height: 20px;
+        padding: 2px;
+        border-radius: 6px;
+        background: #fff;
+        position: absolute;
+        top: 325px;
+        left: 220px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        border: none;
+      }
+      footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 10px;
+        text-align: center;
+        color: white;
+      }
+      span #git {
+        width: 18px;
+        filter: invert();
+      }
+      .gif {
+        width: 30px;
+        height: 30px;
+      }
+      .space {
+        height: 60px;
+      }
+      a {
+        text-decoration: none;
+        color: green;
+        font-family: "Anonymous Pro", monospace;
+      }
+      .profile {
+        width: 40px;
+      }
+      .Atech {
+        position: relative;
+      }
+      .popover {
+        display: none;
+        position: absolute;
+        top: 12px;
+        right: 90px;
+      }
+
+      .popover-trigger:hover + .popover {
+        display: inline;
+      }
+      .pop {
+        display: none;
+        position: absolute;
+        top: -18px;
+        right: 5px;
+      }
+
+      .popTig:hover + .pop {
+        display: inline-block;
+      }
+
+      .yellow1 a{
+        text-decoration: none;
+        color: #000;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <img class="bg" src="Light.jpg" alt="desert image" />
+
+    <h1 class="text-center">MacOS Calculat<span class="content"><span class="popTig">o</span>r
+      <span class="pop"><img class="gif" src="smart.gif" alt="Emoji" /></span></span></h1>
+  <div class="main">
+    <div class="calculator">
+      <div class="window" id="red" title="Close">
+        <div class="red1">x</div>
+      </div>
+      <div class="window" id="yellow" title="Dark/Light Mode">
+        <div class="yellow1"><a href="Dark.html">◑</a></div>
+      </div>
+      <div class="window" id="green" title="PaperTape">
+        <div class="green1">◈</div>
+      </div>
+      <div class="display" id="display">0</div>
+      <div class="keys">
+        <div class="key clear" onclick="clearDisplay()">C</div>
+        <div class="key clear" onclick="changePositivity()">
+          <sup>+</sup>/<sub>-</sub>
+        </div>
+        <div class="key clear" onclick="appendPercentage()">%</div>
+        <div class="key operation" onclick="appendOperator('/')">÷</div>
+        <div class="key" onclick="appendNumber('7')">7</div>
+        <div class="key" onclick="appendNumber('8')">8</div>
+        <div class="key" onclick="appendNumber('9')">9</div>
+        <div class="key operation" onclick="appendOperator('*')">x</div>
+        <div class="key" onclick="appendNumber('4')">4</div>
+        <div class="key" onclick="appendNumber('5')">5</div>
+        <div class="key" onclick="appendNumber('6')">6</div>
+        <div class="key operation" onclick="appendOperator('-')">-</div>
+        <div class="key" onclick="appendNumber('1')">1</div>
+        <div class="key" onclick="appendNumber('2')">2</div>
+        <div class="key" onclick="appendNumber('3')">3</div>
+        <div class="key operation" onclick="appendOperator('+')">+</div>
+        <div class="key key1" id="key" onclick="appendOperator('^')">^</div>
+        <div class="key" onclick="appendNumber('0')">0</div>
+        <div class="key" id="key" onclick="appendDecimal('.')">.</div>
+        <div class="key operation key2" onclick="calculate()">=</div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="window" id="red">
+        <div class="red1">x</div>
+      </div>
+      <div class="window" id="yellow"></div>
+      <div class="window" id="green"></div>
+      <div class="papertape">Paper Tape</div>
+      <div class="tape" id="tape"></div>
+      <button id="clear" onclick="clearTape()">Clear</button>
+    </div>
+  </div>
+  <div class="space"></div>
+    <footer>
+      <span class="Atech"
+        >Copyright © 2024, All Right Reserved <br />
+        <img id="git" src="github.png" alt="Github Logo" />
+        <a
+          class="popover-trigger"
+          href="https://github.com/altaftech"
+          target="_blank"
+          >&nbsp;Altaftech</a>
+          <span class="popover">
+          <img class="profile" src="Altaftech.png" alt="profile pic"></span>
+        </span
+      >
+    </footer>
+    <script>
+      const display = document.getElementById("display");
+      const tape = document.getElementById("tape");
+
+      let currentInput = "0";
+      let operator = "";
+      let firstOperand = "";
+      let tapeContent = "";
+
+      function clearTape() {
+        tapeContent = "";
+        tape.innerHTML = "";
+      }
+
+
+      function clearDisplay() {
+        currentInput = "0";
+        operator = "";
+        firstOperand = "";
+        updateDisplay();
+      }
+
+      function appendNumber(number) {
+        if (currentInput === "0" && number !== ".") {
+          currentInput = number;
+        } else {
+          currentInput += number;
+        }
+        updateDisplay();
+      }
+
+      function appendOperator(op) {
+        operator = op;
+        firstOperand = currentInput;
+        currentInput = "0";
+        updateDisplay();
+      }
+
+      function appendDecimal() {
+        if (!currentInput.includes(".")) {
+          currentInput += ".";
+        }
+        updateDisplay();
+      }
+
+      function calculate() {
+        let result;
+        const secondOperand = currentInput;
+
+        switch (operator) {
+          case "+":
+            result = parseFloat(firstOperand) + parseFloat(secondOperand);
+            break;
+          case "-":
+            result = parseFloat(firstOperand) - parseFloat(secondOperand);
+            break;
+          case "*":
+            result = parseFloat(firstOperand) * parseFloat(secondOperand);
+            break;
+          case "/":
+            result = parseFloat(firstOperand) / parseFloat(secondOperand);
+            break;
+          case "^":
+            result = Math.pow(
+              parseFloat(firstOperand),
+              parseFloat(secondOperand)
+            );
+            break;
+          default:
+            return;
+        }
+
+        tapeContent += `${firstOperand} ${operator} ${secondOperand} = ${result}<br>`;
+
+
+        currentInput = result.toString();
+        operator = "";
+        firstOperand = "";
+        updateDisplay();
+        updateTape();
+
+      }
+
+      function updateDisplay() {
+        display.textContent = currentInput;
+      }
+      function updateTape() {
+        tape.innerHTML = tapeContent;
+        tape.scrollTop = tape.scrollHeight;
+      }
+
+      function changePositivity() {
+        const currentValue = parseFloat(currentInput);
+        if (!isNaN(currentValue)) {
+          currentInput = (currentValue * -1).toString();
+          document.getElementById("display").value = currentInput;
+        }
+      }
+
+      function appendPercentage() {
+        currentInput = (parseFloat(currentInput) / 100).toString();
+        updateDisplay();
+      }
+
+      $(document).ready(function () {
+        $("#red").click(function () {
+          $(".container").hide();
+        });
+        $("#green").click(function () {
+          $(".container").show();
+        });
+      });
+      $(document).ready(function () {
+        $(".container #red").click(function () {
+          $(".container").hide();
+        });
+      });
+
+    </script>
+  </body>
+</html>
