@@ -303,68 +303,71 @@
         display: inline-block;
       }
 
-      .yellow1 a{
+      .yellow1 a {
         text-decoration: none;
         color: #000;
       }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
   </head>
   <body>
     <img class="bg" src="Light.jpg" alt="desert image" />
 
-    <h1 class="text-center">MacOS Calculat<span class="content"><span class="popTig">o</span>r
-      <span class="pop"><img class="gif" src="smart.gif" alt="Emoji" /></span></span></h1>
-  <div class="main">
-    <div class="calculator">
-      <div class="window" id="red" title="Close">
-        <div class="red1">x</div>
-      </div>
-      <div class="window" id="yellow" title="Dark/Light Mode">
-        <div class="yellow1"><a href="Dark.html">◑</a></div>
-      </div>
-      <div class="window" id="green" title="PaperTape">
-        <div class="green1">◈</div>
-      </div>
-      <div class="display" id="display">0</div>
-      <div class="keys">
-        <div class="key clear" onclick="clearDisplay()">C</div>
-        <div class="key clear" onclick="changePositivity()">
-          <sup>+</sup>/<sub>-</sub>
+    <h1 class="text-center">
+      MacOS Calculat<span class="content"
+        ><span class="popTig">o</span>r
+        <span class="pop"><img class="gif" src="smart.gif" alt="Emoji" /></span
+      ></span>
+    </h1>
+    <div class="main">
+      <div class="calculator">
+        <div class="window" id="red" title="Close">
+          <div class="red1">x</div>
         </div>
-        <div class="key clear" onclick="appendPercentage()">%</div>
-        <div class="key operation" onclick="appendOperator('/')">÷</div>
-        <div class="key" onclick="appendNumber('7')">7</div>
-        <div class="key" onclick="appendNumber('8')">8</div>
-        <div class="key" onclick="appendNumber('9')">9</div>
-        <div class="key operation" onclick="appendOperator('*')">x</div>
-        <div class="key" onclick="appendNumber('4')">4</div>
-        <div class="key" onclick="appendNumber('5')">5</div>
-        <div class="key" onclick="appendNumber('6')">6</div>
-        <div class="key operation" onclick="appendOperator('-')">-</div>
-        <div class="key" onclick="appendNumber('1')">1</div>
-        <div class="key" onclick="appendNumber('2')">2</div>
-        <div class="key" onclick="appendNumber('3')">3</div>
-        <div class="key operation" onclick="appendOperator('+')">+</div>
-        <div class="key key1" id="key" onclick="appendOperator('^')">^</div>
-        <div class="key" onclick="appendNumber('0')">0</div>
-        <div class="key" id="key" onclick="appendDecimal('.')">.</div>
-        <div class="key operation key2" onclick="calculate()">=</div>
+        <div class="window" id="yellow" title="Dark/Light Mode">
+          <div class="yellow1"><a href="index.html">◑</a></div>
+        </div>
+        <div class="window" id="green" title="PaperTape">
+          <div class="green1">◈</div>
+        </div>
+        <div class="display" id="display">0</div>
+        <div class="keys">
+          <div class="key clear" onclick="clearDisplay()">C</div>
+          <div class="key clear" onclick="changePositivity()">
+            <sup>+</sup>/<sub>-</sub>
+          </div>
+          <div class="key clear" onclick="appendPercentage()">%</div>
+          <div class="key operation" onclick="appendOperator('/')">÷</div>
+          <div class="key" onclick="appendNumber('7')">7</div>
+          <div class="key" onclick="appendNumber('8')">8</div>
+          <div class="key" onclick="appendNumber('9')">9</div>
+          <div class="key operation" onclick="appendOperator('*')">x</div>
+          <div class="key" onclick="appendNumber('4')">4</div>
+          <div class="key" onclick="appendNumber('5')">5</div>
+          <div class="key" onclick="appendNumber('6')">6</div>
+          <div class="key operation" onclick="appendOperator('-')">-</div>
+          <div class="key" onclick="appendNumber('1')">1</div>
+          <div class="key" onclick="appendNumber('2')">2</div>
+          <div class="key" onclick="appendNumber('3')">3</div>
+          <div class="key operation" onclick="appendOperator('+')">+</div>
+          <div class="key key1" id="key" onclick="appendOperator('^')">^</div>
+          <div class="key" onclick="appendNumber('0')">0</div>
+          <div class="key" id="key" onclick="appendDecimal('.')">.</div>
+          <div class="key operation key2" onclick="calculate()">=</div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="window" id="red">
+          <div class="red1">x</div>
+        </div>
+        <div class="window" id="yellow"></div>
+        <div class="window" id="green"></div>
+        <div class="papertape">Paper Tape</div>
+        <div class="tape" id="tape"></div>
+        <button id="clear" onclick="clearTape()">Clear</button>
       </div>
     </div>
-    <div class="container">
-      <div class="window" id="red">
-        <div class="red1">x</div>
-      </div>
-      <div class="window" id="yellow"></div>
-      <div class="window" id="green"></div>
-      <div class="papertape">Paper Tape</div>
-      <div class="tape" id="tape"></div>
-      <button id="clear" onclick="clearTape()">Clear</button>
-    </div>
-  </div>
-  <div class="space"></div>
+    <div class="space"></div>
     <footer>
       <span class="Atech"
         >Copyright © 2024, All Right Reserved <br />
@@ -373,11 +376,12 @@
           class="popover-trigger"
           href="https://github.com/altaftech"
           target="_blank"
-          >&nbsp;Altaftech</a>
-          <span class="popover">
-          <img class="profile" src="Altaftech.png" alt="profile pic"></span>
-        </span
-      >
+          >&nbsp;Altaftech</a
+        >
+        <span class="popover">
+          <img class="profile" src="Altaftech.png" alt="profile pic"
+        /></span>
+      </span>
     </footer>
     <script>
       const display = document.getElementById("display");
@@ -392,7 +396,6 @@
         tapeContent = "";
         tape.innerHTML = "";
       }
-
 
       function clearDisplay() {
         currentInput = "0";
@@ -453,13 +456,11 @@
 
         tapeContent += `${firstOperand} ${operator} ${secondOperand} = ${result}<br>`;
 
-
         currentInput = result.toString();
         operator = "";
         firstOperand = "";
         updateDisplay();
         updateTape();
-
       }
 
       function updateDisplay() {
@@ -496,7 +497,7 @@
           $(".container").hide();
         });
       });
-
     </script>
   </body>
 </html>
+
